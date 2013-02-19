@@ -84,19 +84,21 @@ void export_stroke ()
 
     class_<stroke>("Stroke",init<>(
                        "Creates a new default black stroke with the width of 1.\n"))
-        .def(init<color,float>(
+        /*.def(init<color,float>(
                  (arg("color"),arg("width")),
                  "Creates a new stroke object with a specified color and width.\n")
             )
+        */
         .add_property("color",make_function
                       (&stroke::get_color,return_value_policy<copy_const_reference>()),
                       &stroke::set_color,
                       "Gets or sets the stroke color.\n"
                       "Returns a new Color object on retrieval.\n")
-        .add_property("width",
+        /*.add_property("width",
                       &stroke::get_width,
                       &stroke::set_width,
                       "Gets or sets the stroke width in pixels.\n")
+        */
         .add_property("opacity",
                       &stroke::get_opacity,
                       &stroke::set_opacity,

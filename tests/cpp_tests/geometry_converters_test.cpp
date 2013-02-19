@@ -44,7 +44,7 @@ struct output_geometry_backend
 boost::optional<std::string> linestring_bbox_clipping(mapnik::box2d<double> bbox,
                                                       std::string wkt_in)
 {
-    using namespace mapnik;
+    /*using namespace mapnik;
     agg::trans_affine tr;
     projection src;
     projection dst;
@@ -57,7 +57,7 @@ boost::optional<std::string> linestring_bbox_clipping(mapnik::box2d<double> bbox
     typedef boost::mpl::vector<clip_line_tag> conv_types;
     vertex_converter<box2d<double>, output_geometry_backend, line_symbolizer,
                      CoordTransform, proj_transform, agg::trans_affine, conv_types>
-        converter(bbox, backend, sym, t, prj_trans, tr, 1.0);
+        converter(bbox, backend, sym, t, prj_trans, tr, 1.0,feature);
 
     converter.set<clip_line_tag>();
 
@@ -79,12 +79,13 @@ boost::optional<std::string> linestring_bbox_clipping(mapnik::box2d<double> bbox
     }
 
     return boost::optional<std::string>();
+    */
 }
 
 boost::optional<std::string> polygon_bbox_clipping(mapnik::box2d<double> bbox,
                                                    std::string wkt_in)
 {
-    using namespace mapnik;
+    /*using namespace mapnik;
     agg::trans_affine tr;
     projection src;
     projection dst;
@@ -119,6 +120,7 @@ boost::optional<std::string> polygon_bbox_clipping(mapnik::box2d<double> bbox,
     }
 
     return boost::optional<std::string>();
+    */
 }
 
 int main( int, char*[] )

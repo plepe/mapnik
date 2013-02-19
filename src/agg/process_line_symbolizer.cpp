@@ -26,6 +26,7 @@
 #include <mapnik/agg_renderer.hpp>
 #include <mapnik/agg_helpers.hpp>
 #include <mapnik/agg_rasterizer.hpp>
+#include <mapnik/expression_evaluator.hpp>
 
 #include <mapnik/line_symbolizer.hpp>
 #include <mapnik/vertex_converters.hpp>
@@ -65,6 +66,14 @@ void agg_renderer<T>::process(line_symbolizer const& sym,
     unsigned b=col.blue();
     unsigned a=col.alpha();
 
+    double width = 1.0;
+    expression_ptr width_expr = stroke_.get_width();
+    if (width_expr)
+    {
+        value_type result = boost::apply_visitor(evaluate<feature_impl,value_type>(feature), *width_expr);
+        width = result.to_double();
+    }
+
     ras_ptr->reset();
     set_gamma_method(stroke_, ras_ptr);
 
@@ -91,7 +100,7 @@ void agg_renderer<T>::process(line_symbolizer const& sym,
     if (sym.clip())
     {
         double padding = (double)(query_extent_.width()/pixmap_.width());
-        double half_stroke = stroke_.get_width()/2.0;
+        double half_stroke = width/2.0;
         if (half_stroke > 1)
             padding *= half_stroke;
         if (std::fabs(sym.offset()) > 0)
@@ -106,7 +115,7 @@ void agg_renderer<T>::process(line_symbolizer const& sym,
     {
         typedef agg::renderer_outline_aa<renderer_base> renderer_type;
         typedef agg::rasterizer_outline_aa<renderer_type> rasterizer_type;
-        agg::line_profile_aa profile(stroke_.get_width() * scale_factor_, agg::gamma_power(stroke_.get_gamma()));
+        agg::line_profile_aa profile(width * scale_factor_, agg::gamma_power(stroke_.get_gamma()));
         renderer_type ren(renb, profile);
         ren.color(agg::rgba8_pre(r, g, b, int(a*stroke_.get_opacity())));
         rasterizer_type ras(ren);
@@ -114,7 +123,7 @@ void agg_renderer<T>::process(line_symbolizer const& sym,
 
         vertex_converter<box2d<double>, rasterizer_type, line_symbolizer,
                          CoordTransform, proj_transform, agg::trans_affine, conv_types>
-            converter(clipping_extent,ras,sym,t_,prj_trans,tr,scale_factor_);
+            converter(clipping_extent,ras,sym,t_,prj_trans,tr,scale_factor_,feature);
         if (sym.clip()) converter.set<clip_line_tag>(); // optional clip (default: true)
         converter.set<transform_tag>(); // always transform
         if (std::fabs(sym.offset()) > 0.0) converter.set<offset_transform_tag>(); // parallel offset
@@ -134,7 +143,7 @@ void agg_renderer<T>::process(line_symbolizer const& sym,
     {
         vertex_converter<box2d<double>, rasterizer, line_symbolizer,
                          CoordTransform, proj_transform, agg::trans_affine, conv_types>
-            converter(clipping_extent,*ras_ptr,sym,t_,prj_trans,tr,scale_factor_);
+            converter(clipping_extent,*ras_ptr,sym,t_,prj_trans,tr,scale_factor_,feature);
 
         if (sym.clip()) converter.set<clip_line_tag>(); // optional clip (default: true)
         converter.set<transform_tag>(); // always transform

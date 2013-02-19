@@ -464,7 +464,7 @@ private:
         }
         if ( strk.get_width() != dfl.get_width() || explicit_defaults_ )
         {
-            set_attr( node, "stroke-width", strk.get_width() );
+            set_attr( node, "stroke-width", to_expression_string(*strk.get_width()) );
         }
         if ( strk.get_opacity() != dfl.get_opacity() || explicit_defaults_ )
         {

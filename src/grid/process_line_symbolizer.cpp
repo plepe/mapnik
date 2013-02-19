@@ -64,9 +64,17 @@ void grid_renderer<T>::process(line_symbolizer const& sym,
     grid_renderer_base_type renb(pixf);
     renderer_type ren(renb);
 
+    stroke const& stroke_ = sym.get_stroke();
+    double width = 1.0;
+    expression_ptr width_expr = stroke_.get_width();
+    if (width_expr)
+    {
+        value_type result = boost::apply_visitor(evaluate<feature_impl,value_type>(feature), *width_expr);
+        width = result.to_double();
+    }
+
     ras_ptr->reset();
 
-    stroke const& stroke_ = sym.get_stroke();
 
     agg::trans_affine tr;
     evaluate_transform(tr, feature, sym.get_transform());
@@ -75,7 +83,7 @@ void grid_renderer<T>::process(line_symbolizer const& sym,
     if (sym.clip())
     {
         double padding = (double)(query_extent_.width()/pixmap_.width());
-        double half_stroke = stroke_.get_width()/2.0;
+        double half_stroke = width/2.0;
         if (half_stroke > 1)
             padding *= half_stroke;
         if (std::fabs(sym.offset()) > 0)
@@ -85,7 +93,7 @@ void grid_renderer<T>::process(line_symbolizer const& sym,
 
     vertex_converter<box2d<double>, grid_rasterizer, line_symbolizer,
                      CoordTransform, proj_transform, agg::trans_affine, conv_types>
-        converter(clipping_extent,*ras_ptr,sym,t_,prj_trans,tr,scale_factor_);
+        converter(clipping_extent,*ras_ptr,sym,t_,prj_trans,tr,scale_factor_,feature);
     if (sym.clip()) converter.set<clip_line_tag>(); // optional clip (default: true)
     converter.set<transform_tag>(); // always transform
     if (std::fabs(sym.offset()) > 0.0) converter.set<offset_transform_tag>(); // parallel offset

@@ -48,7 +48,7 @@ IMPLEMENT_ENUM( line_join_e, line_join_strings )
 
 stroke::stroke()
 : c_(0,0,0),
-    width_(1.0),
+    width_(),
     opacity_(1.0),
     line_cap_(BUTT_CAP),
     line_join_(MITER_JOIN),
@@ -58,6 +58,7 @@ stroke::stroke()
     dash_offset_(0),
     miterlimit_(4.0) {}
 
+/*
 stroke::stroke(color const& c, double width)
     : c_(c),
       width_(width),
@@ -69,6 +70,7 @@ stroke::stroke(color const& c, double width)
       dash_(),
       dash_offset_(0.0),
       miterlimit_(4.0) {}
+*/
 
 stroke::stroke(stroke const& other)
     : c_(other.c_),
@@ -99,11 +101,11 @@ color const& stroke::get_color() const
     return c_;
 }
 
-double stroke::get_width() const
+expression_ptr const& stroke::get_width() const
 {
     return width_;
 }
-void stroke::set_width(double w)
+void stroke::set_width(expression_ptr const& w)
 {
     width_=w;
 }

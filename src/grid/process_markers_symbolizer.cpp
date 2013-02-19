@@ -149,7 +149,7 @@ void grid_renderer<T>::process(markers_symbolizer const& sym,
                                                       pixmap_);
                     vertex_converter<box2d<double>, dispatch_type, markers_symbolizer,
                                      CoordTransform, proj_transform, agg::trans_affine, conv_types>
-                        converter(query_extent_, rasterizer_dispatch, sym,t_,prj_trans,tr,scale_factor_);
+                        converter(query_extent_, rasterizer_dispatch, sym,t_,prj_trans,tr,scale_factor_,feature);
                     if (sym.clip() && feature.paths().size() > 0) // optional clip (default: true)
                     {
                         eGeomType type = feature.paths()[0].type();
@@ -191,7 +191,7 @@ void grid_renderer<T>::process(markers_symbolizer const& sym,
                                                       pixmap_);
                     vertex_converter<box2d<double>, dispatch_type, markers_symbolizer,
                                      CoordTransform, proj_transform, agg::trans_affine, conv_types>
-                        converter(query_extent_, rasterizer_dispatch, sym,t_,prj_trans,tr,scale_factor_);
+                        converter(query_extent_, rasterizer_dispatch, sym,t_,prj_trans,tr,scale_factor_,feature);
                     if (sym.clip() && feature.paths().size() > 0) // optional clip (default: true)
                     {
                         eGeomType type = feature.paths()[0].type();
@@ -236,7 +236,7 @@ void grid_renderer<T>::process(markers_symbolizer const& sym,
                                                   pixmap_);
                 vertex_converter<box2d<double>, dispatch_type, markers_symbolizer,
                                  CoordTransform, proj_transform, agg::trans_affine, conv_types>
-                    converter(query_extent_, rasterizer_dispatch, sym,t_,prj_trans,tr,scale_factor_);
+                    converter(query_extent_, rasterizer_dispatch, sym,t_,prj_trans,tr,scale_factor_,feature);
                 if (sym.clip() && feature.paths().size() > 0) // optional clip (default: true)
                 {
                     eGeomType type = feature.paths()[0].type();

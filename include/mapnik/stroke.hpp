@@ -28,6 +28,7 @@
 #include <mapnik/color.hpp>
 #include <mapnik/gamma_method.hpp>
 #include <mapnik/enumeration.hpp>
+#include <mapnik/expression.hpp>
 
 // stl
 #include <vector>
@@ -64,7 +65,7 @@ DEFINE_ENUM( line_join_e, line_join_enum );
 class MAPNIK_DECL stroke
 {
     color c_;
-    double width_;
+    expression_ptr width_;
     double opacity_; // 0.0 - 1.0
     line_cap_e  line_cap_;
     line_join_e line_join_;
@@ -82,8 +83,8 @@ public:
     void set_color(const color& c);
     color const& get_color() const;
 
-    double get_width() const;
-    void set_width(double w);
+    void set_width(expression_ptr const& width);
+    expression_ptr const& get_width() const;
 
     void set_opacity(double opacity);
     double get_opacity() const;

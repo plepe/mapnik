@@ -350,7 +350,9 @@ bool push_explicit_style(Attr const& src, Attr & dst, markers_symbolizer const& 
                 // for this to work properly
                 if (strk)
                 {
-                    attr.stroke_width = strk->get_width();
+                    // FIXME
+                    //attr.stroke_width = strk->get_width();
+                    attr.stroke_width = 100; // big value to make it obvious this is broken
                     color const& s_color = strk->get_color();
                     attr.stroke_color = agg::rgba(s_color.red()/255.0,
                                                   s_color.green()/255.0,

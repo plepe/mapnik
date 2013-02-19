@@ -1287,7 +1287,7 @@ bool map_parser::parse_stroke(stroke & strk, xml_node const & sym)
     }
 
     // stroke-width
-    optional<double> width = sym.get_opt_attr<double>("stroke-width");
+    optional<expression_ptr> width = sym.get_opt_attr<expression_ptr>("stroke-width");
     if (width)
     {
         result = true;

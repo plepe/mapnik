@@ -51,6 +51,7 @@
 #include <mapnik/offset_converter.hpp>
 #include <mapnik/simplify_converter.hpp>
 #include <mapnik/noncopyable.hpp>
+#include <mapnik/expression_evaluator.hpp>
 
 // agg
 #include "agg_conv_clip_polygon.h"
@@ -169,7 +170,15 @@ struct converter_traits<T, mapnik::stroke_tag>
         set_join_caps(stroke_,geom);
         geom.generator().miter_limit(stroke_.get_miterlimit());
         double scale_factor = boost::fusion::at_c<6>(args);
-        geom.generator().width(stroke_.get_width() * scale_factor);
+        feature_impl const& feature = boost::fusion::at_c<7>(args);
+        double width = 1.0;
+        expression_ptr width_expr = stroke_.get_width();
+        if (width_expr)
+        {
+            value_type result = boost::apply_visitor(evaluate<feature_impl,value_type>(feature), *width_expr);
+            width = result.to_double();
+        }
+        geom.generator().width(width * scale_factor);
     }
 };
 
@@ -346,19 +355,22 @@ struct vertex_converter : private mapnik::noncopyable
     trans_type const&,
     proj_trans_type const&,
     affine_trans_type const&,
-    double //scale-factor
+    double, //scale-factor
+    feature_impl const&
     > args_type;
 
     vertex_converter(bbox_type const& b, rasterizer_type & ras,
                      symbolizer_type const& sym, trans_type & tr,
                      proj_trans_type const& prj_trans,
                      affine_trans_type const& affine_trans,
-                     double scale_factor)
+                     double scale_factor,
+                     feature_impl const& feature)
         : disp_(args_type(boost::cref(b), boost::ref(ras),
                           boost::cref(sym), boost::cref(tr),
                           boost::cref(prj_trans),
                           boost::cref(affine_trans),
-                          scale_factor)) {}
+                          scale_factor,
+                          boost::cref(feature))) {}
 
     template <typename Geometry>
     void apply(Geometry & geom)

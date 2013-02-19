@@ -90,7 +90,7 @@ int main ( int argc , char** argv)
         // Provinces (polyline)
         feature_type_style provlines_style;
 
-        stroke provlines_stk (color(0,0,0),1.0);
+        stroke provlines_stk;
         provlines_stk.add_dash(8, 4);
         provlines_stk.add_dash(2, 2);
         provlines_stk.add_dash(2, 2);
@@ -115,7 +115,7 @@ int main ( int argc , char** argv)
         feature_type_style roads34_style;
         rule roads34_rule;
         roads34_rule.set_filter(parse_expression("[CLASS] = 3 or [CLASS] = 4"));
-        stroke roads34_rule_stk(color(171,158,137),2.0);
+        stroke roads34_rule_stk;
         roads34_rule_stk.set_line_cap(ROUND_CAP);
         roads34_rule_stk.set_line_join(ROUND_JOIN);
         roads34_rule.append(line_symbolizer(roads34_rule_stk));
@@ -128,7 +128,7 @@ int main ( int argc , char** argv)
         feature_type_style roads2_style_1;
         rule roads2_rule_1;
         roads2_rule_1.set_filter(parse_expression("[CLASS] = 2"));
-        stroke roads2_rule_stk_1(color(171,158,137),4.0);
+        stroke roads2_rule_stk_1;
         roads2_rule_stk_1.set_line_cap(ROUND_CAP);
         roads2_rule_stk_1.set_line_join(ROUND_JOIN);
         roads2_rule_1.append(line_symbolizer(roads2_rule_stk_1));
@@ -139,7 +139,7 @@ int main ( int argc , char** argv)
         feature_type_style roads2_style_2;
         rule roads2_rule_2;
         roads2_rule_2.set_filter(parse_expression("[CLASS] = 2"));
-        stroke roads2_rule_stk_2(color(255,250,115),2.0);
+        stroke roads2_rule_stk_2;
         roads2_rule_stk_2.set_line_cap(ROUND_CAP);
         roads2_rule_stk_2.set_line_join(ROUND_JOIN);
         roads2_rule_2.append(line_symbolizer(roads2_rule_stk_2));
@@ -151,7 +151,7 @@ int main ( int argc , char** argv)
         feature_type_style roads1_style_1;
         rule roads1_rule_1;
         roads1_rule_1.set_filter(parse_expression("[CLASS] = 1"));
-        stroke roads1_rule_stk_1(color(188,149,28),7.0);
+        stroke roads1_rule_stk_1;
         roads1_rule_stk_1.set_line_cap(ROUND_CAP);
         roads1_rule_stk_1.set_line_join(ROUND_JOIN);
         roads1_rule_1.append(line_symbolizer(roads1_rule_stk_1));
@@ -161,7 +161,7 @@ int main ( int argc , char** argv)
         feature_type_style roads1_style_2;
         rule roads1_rule_2;
         roads1_rule_2.set_filter(parse_expression("[CLASS] = 1"));
-        stroke roads1_rule_stk_2(color(242,191,36),5.0);
+        stroke roads1_rule_stk_2;
         roads1_rule_stk_2.set_line_cap(ROUND_CAP);
         roads1_rule_stk_2.set_line_join(ROUND_JOIN);
         roads1_rule_2.append(line_symbolizer(roads1_rule_stk_2));

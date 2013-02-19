@@ -138,6 +138,11 @@ struct symbolizer_attributes : public boost::static_visitor<>
 
     void operator () (line_symbolizer const& sym)
     {
+        expression_ptr const& width_expr = sym.get_stroke().get_width();
+        if (width_expr)
+        {
+            boost::apply_visitor(f_attr,*width_expr);
+        }
         collect_transform(sym.get_transform());
     }
 
