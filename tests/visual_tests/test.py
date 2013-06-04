@@ -61,6 +61,8 @@ text_tests = [
     {'name': "formatting-2",'bbox':default_text_box},
     {'name': "formatting-3",'bbox':default_text_box},
     {'name': "formatting-4",'bbox':default_text_box},
+    {'name': "formatting-5",'bbox':default_text_box},
+    {'name': "formatting-6",'bbox':default_text_box},
     {'name': "expressionformat",'bbox':default_text_box},
     {'name': "shieldsymbolizer-1", 'sizes': sizes_many_in_small_range,'bbox':default_text_box},
     {'name': "shieldsymbolizer-2", 'bbox':default_text_box},
